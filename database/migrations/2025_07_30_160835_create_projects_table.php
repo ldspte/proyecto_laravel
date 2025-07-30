@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('budget');
             $table->string('status');
+            $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

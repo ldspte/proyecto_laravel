@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('budget');
+            $table->foreignId('team_leader_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
