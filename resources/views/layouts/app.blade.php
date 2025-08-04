@@ -40,7 +40,7 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('teams.index') }}">Equipos</a></li>
                             @endif
                             @if(auth()->user()->hasRole('Developer'))
-                                <li class="nav-item"><a class="nav-link" href="{{ route('tasks.my') }}">Mis Tareas</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('tasks.my-tasks') }}">Mis Tareas</a></li>
                             @endif
                         @endauth
                     </ul>
