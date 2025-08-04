@@ -10,14 +10,57 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+/**
+ * @OA\Info(title="API Gestión de Proyectos", version="1.0")
+ */
 
 class ProjectController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/api/projects",
+     *     summary="Lista todos los proyectos",
+     *     tags={"Proyectos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de proyectos",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="status", type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
+
         $projects = Project::with(['team', 'tasks'])->get();
         return view('projects.index', compact('projects'));
     }
+    /**
+     * @OA\Post(
+     *     path="/api/projects",
+     *     summary="Crea un nuevo proyecto",
+     *     tags={"Proyectos"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "status"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="team_id", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Proyecto creado"),
+     *     @OA\Response(response=400, description="Solicitud incorrecta")
+     * )
+     */
 
     public function create()
     {
@@ -25,6 +68,7 @@ class ProjectController extends Controller
         $users = User::all();
         return view('projects.create', compact('teams', 'users'));
     }
+
 
     public function store(Request $request)
     {
@@ -46,12 +90,52 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.index')->with('success', 'Proyecto creado exitosamente');
     }
+     /**
+     * @OA\Get(
+     *     path="/api/projects/{id}",
+     *     summary="Obtiene un proyecto específico",
+     *     tags={"Proyectos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Proyecto encontrado"),
+     *     @OA\Response(response=404, description="Proyecto no encontrado")
+     * )
+     */
 
     public function show(Project $project)
     {
         $project->load(['team.members', 'tasks.assignedUser']);
         return view('projects.show', compact('project'));
     }
+    /**
+     * @OA\Put(
+     *     path="/api/projects/{id}",
+     *     summary="Actualiza un proyecto existente",
+     *     tags={"Proyectos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     * *             required={"name", "status"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="team_id", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Proyecto actualizado"),
+     *     @OA\Response(response=404, description="Proyecto no encontrado")
+     * )
+     */
 
     public function edit(Project $project)
     {
@@ -75,6 +159,22 @@ class ProjectController extends Controller
         $project->update($validated);
         return redirect()->route('projects.index')->with('success', 'Proyecto actualizado exitosamente');
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/projects/{id}",
+     *     summary="Elimina un proyecto",
+     *     tags={"Proyectos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=204, description="Proyecto eliminado"),
+     *     @OA\Response(response=404, description="Proyecto no encontrado")
+     * )
+     */
 
     public function destroy(Project $project)
     {

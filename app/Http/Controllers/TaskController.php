@@ -9,8 +9,40 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+/**
+ * @OA\Tag(
+ *     name="Tareas",
+ *     description="Operaciones relacionadas con tareas"
+ * )
+ */
+
 class TaskController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/tasks",
+     *     summary="Lista todas las tareas",
+     *     tags={"Tareas"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de tareas",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="title", type="string", example="Corregir bug"),
+     *                 @OA\Property(property="status", type="string", example="pendiente"),
+     *                 @OA\Property(property="priority", type="string", example="alta"),
+     *                 @OA\Property(property="estimated_hours", type="number", format="float", example=5.5),
+     *                 @OA\Property(property="actual_hours", type="number", format="float", example=3.0),
+     *                 @OA\Property(property="due_date", type="string", example="2025-12-31"),
+     *                 @OA\Property(property="project_id", type="integer", example=1),
+     *                 @OA\Property(property="assigned_user_id", type="integer", example=2)
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $tasks = Task::with(['project', 'assignedUser'])->get();
@@ -24,6 +56,29 @@ class TaskController extends Controller
         return view('tasks.create', compact('projects', 'users'));
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/tasks",
+     *     summary="Crear una tarea",
+     *     tags={"Tareas"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "status", "priority", "estimated_hours", "due_date", "project_id", "assigned_user_id"},
+     *             @OA\Property(property="title", type="string", example="Corregir bug"),
+     *             @OA\Property(property="description", type="string", example="Descripción del bug..."),
+     *             @OA\Property(property="status", type="string", example="pendiente"),
+     *             @OA\Property(property="priority", type="string", example="alta"),
+     *             @OA\Property(property="estimated_hours", type="number", format="float", example=5.5),
+     *             @OA\Property(property="due_date", type="string", example="2025-12-31"),
+     *             @OA\Property(property="project_id", type="integer", example=1),
+     *             @OA\Property(property="assigned_user_id", type="integer", example=2)
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Tarea creada"),
+     *     @OA\Response(response=400, description="Solicitud inválida")
+     * )
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -73,6 +128,21 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')->with('success', 'Tarea actualizada exitosamente');
     }
+    /**
+     * @OA\Delete(
+     *     path="/api/tasks/{id}",
+     *     summary="Elimina una Tarea",
+     *     tags={"Tareas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=204, description="Tarea eliminada"),
+     *     @OA\Response(response=404, description="Tarea no encontrada")
+     * )
+     */
 
     public function destroy(Task $task)
     {
