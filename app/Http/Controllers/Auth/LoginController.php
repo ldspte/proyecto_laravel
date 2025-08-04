@@ -41,9 +41,9 @@ class LoginController extends Controller
         if ($user->hasRole('Admin')) {
             return redirect('/dashboard');
         } elseif ($user->hasRole('Project Manager')) {
-            return redirect('/projects');
+            return redirect('/home');
         }
-        return redirect('/tasks');
+        return redirect('/home');
     }
 
     public function __construct()

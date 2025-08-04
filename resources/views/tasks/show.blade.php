@@ -21,13 +21,13 @@
                                 {{ ucfirst($task->status) }}
                             </span>
                         </li>
-                        <li class="list-group-item"><strong>Fecha Límite:</strong> {{ $task->due_date->format('d/m/Y') }}</li>
+                        <li class="list-group-item"><strong>Fecha Límite:</strong> {{ $task->due_date }}</li>
                         <li class="list-group-item"><strong>Prioridad:</strong> {{ ucfirst($task->priority) }}</li>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">Detalles de Prioridad</h5>
                                 <p><strong>Prioridad:</strong> 
-                                    <span class="{{ $priorityClasses[$task->priority] }}">
+                                    <span >
                                         {{ ucfirst($task->priority) }}
                                     </span>
                                 </p>

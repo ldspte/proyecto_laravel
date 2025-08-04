@@ -31,10 +31,17 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
-                            <li class="nav-item"><a class="nav-link" href="{{ route('tasks.index') }}">Tareas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Usuarios</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('projects.index') }}">Proyectos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('teams.index') }}">Equipos</a></li>
+                            @if(auth()->user()->hasRole('Admin'))
+                                <li class="nav-item"><a class="nav-link" href="{{ route('tasks.index') }}">Tareas</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Usuarios</a></li>
+                            @endif
+                            @if(auth()->user()->hasRole('Project Manager') || auth()->user()->hasRole('Admin')) <!-- Verifica si el usuario tiene el rol de Project Manager -->
+                                <li class="nav-item"><a class="nav-link" href="{{ route('projects.index') }}">Proyectos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('teams.index') }}">Equipos</a></li>
+                            @endif
+                            @if(auth()->user()->hasRole('developer'))
+                                <li class="nav-item"><a class="nav-link" href="{{ route('tasks.my') }}">Mis Tareas</a></li>
+                            @endif
                         @endauth
                     </ul>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ReportController;
 
 
 
@@ -20,7 +21,11 @@ Route::middleware(['auth'])->group(function () {
     
     // Rutas específicas por rol
     Route::middleware(['role:Admin'])->group(function () {
-        Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+        Route::get('/dashboard', [ReportController::class, 'index']);  
+        Route::get('/reports/developer-productivity', [ReportController::class, 'developerProductivity']);
+        Route::get('/reports/project-status', [ReportController::class, 'projectStatus']);
+        Route::get('/reports/team-financial', [ReportController::class, 'teamFinancial']);
+        Route::get('/reports/project-timeline', [ReportController::class, 'projectTimeline']);
         // Rutas para Tareas
         Route::resource('tasks', TaskController::class);
         Route::get('users/{user}/tasks', [TaskController::class, 'getUserTasks'])->name('users.tasks');
@@ -32,22 +37,23 @@ Route::middleware(['auth'])->group(function () {
         // Rutas para Equipos
         Route::resource('teams', TeamController::class);
         Route::post('teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.add-members');
+        Route::get('/my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my');
     });
 
-    Route::middleware(['role:Project Manager'])->group(function(){
-        // Rutas para Proyectos
-        Route::resource('projects', ProjectController::class);
-        Route::post('projects/{project}/assign-users', [ProjectController::class, 'assignUsers'])->name('projects.assign-users');
-        // Rutas para Equipos
-        Route::resource('teams', TeamController::class);
-        Route::post('teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.add-members');
-    });
+    // Route::middleware(['role:Project Manager'])->group(function(){
+    //     // Rutas para Proyectos
+    //     Route::resource('projects', ProjectController::class);
+    //     Route::post('projects/{project}/assign-users', [ProjectController::class, 'assignUsers'])->name('projects.assign-users');
+    //     // Rutas para Equipos
+    //     Route::resource('teams', TeamController::class);
+    //     Route::post('teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.add-members');
+    // });
 
-    Route::middleware(['role:Developer'])->group(function(){
-        // Rutas para Equipos
-        Route::resource('teams', TeamController::class);
-        Route::post('teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.add-members');
-    });
+    // Route::middleware(['role:Developer'])->group(function(){
+    //     // Rutas para Equipos
+    //     Route::resource('teams', TeamController::class);
+    //     Route::post('teams/{team}/add-members', [TeamController::class, 'addMembers'])->name('teams.add-members');
+    // });
 
 });
 

@@ -9,9 +9,9 @@
         @method('PUT')
         
         <div class="form-group">
-            <label for="name">Nombre de la Tarea</label>
+            <label for="title">Nombre de la Tarea</label>
             <input type="text" class="form-control" id="name" name="name" 
-                   value="{{ old('name', $task->name) }}" required>
+                   value="{{ old('title', $task->title) }}" required>
         </div>
 
         <div class="form-group">
@@ -22,7 +22,7 @@
         <div class="form-group">
             <label for="due_date">Fecha Límite</label>
             <input type="date" class="form-control" id="due_date" name="due_date" 
-                   value="{{ old('due_date', $task->due_date->format('Y-m-d')) }}" required>
+                   value="{{ old('due_date', $task->due_date) }}" required>
         </div>
 
         <div class="form-group">

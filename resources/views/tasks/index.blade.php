@@ -7,7 +7,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre</th>
+                <th>Titulo</th>
                 <th>Descripción</th>
                 <th>Fecha de Vencimiento</th>
                 <th>Estado</th>
@@ -19,7 +19,7 @@
         <tbody>
             @foreach ($tasks as $task)
                 <tr>
-                    <td>{{ $task->name }}</td>
+                    <td>{{ $task->title }}</td>
                     <td>{{ $task->description }}</td>
                     <td>{{ $task->due_date }}</td>
                     <td>{{ $task->status }}</td>

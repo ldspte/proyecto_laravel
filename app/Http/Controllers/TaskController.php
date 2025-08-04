@@ -80,9 +80,12 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Tarea eliminada exitosamente');
     }
 
-    public function getUserTasks(User $user)
+    public function myTasks()
     {
-        $tasks = $user->assignedTasks()->with('project')->get();
-        return view('tasks.user-tasks', compact('user', 'tasks'));
+        $user = auth()->user(); // Obtiene el usuario autenticado
+        $tasks = Task::where('assigned_user_id', $user->id)->get(); // Obtiene las tareas asignadas a ese usuario
+
+        return view('tasks.my-tasks', compact('tasks'));
     }
+
 }
