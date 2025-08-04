@@ -39,7 +39,7 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('projects.index') }}">Proyectos</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('teams.index') }}">Equipos</a></li>
                             @endif
-                            @if(auth()->user()->hasRole('developer'))
+                            @if(auth()->user()->hasRole('Developer'))
                                 <li class="nav-item"><a class="nav-link" href="{{ route('tasks.my') }}">Mis Tareas</a></li>
                             @endif
                         @endauth
