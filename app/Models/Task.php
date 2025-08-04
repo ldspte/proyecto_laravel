@@ -36,6 +36,14 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'assigned_user_id'); 
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function hasRole($roleName)
+    {
+        return $this->role->name === $roleName;
+    }
 }
 
 

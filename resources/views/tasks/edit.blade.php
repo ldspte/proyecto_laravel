@@ -57,6 +57,23 @@
                 @endforeach
             </select>
         </div>
+        <div class="form-group">
+            <label for="priority">Prioridad</label>
+            <select class="form-control" id="priority" name="priority" required>
+                <option value="baja" {{ old('priority', $task->priority ?? '') == 'baja' ? 'selected' : '' }}>Baja</option>
+                <option value="media" {{ old('priority', $task->priority ?? 'media') == 'media' ? 'selected' : '' }}>Media</option>
+                <option value="alta" {{ old('priority', $task->priority ?? '') == 'alta' ? 'selected' : '' }}>Alta</option>
+                <option value="critica" {{ old('priority', $task->priority ?? '') == 'critica' ? 'selected' : '' }}>Crítica</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="estimated_hours">Horas Estimadas</label>
+            <input type="number" step="0.25" class="form-control" id="estimated_hours" 
+                   name="estimated_hours" value="{{ old('estimated_hours', $task->estimated_hours ?? '') }}"
+                   min="0.25" max="100">
+            <small class="form-text text-muted">Puedes usar valores como 1.5, 2.25, etc.</small>
+        </div>
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Actualizar Tarea</button>

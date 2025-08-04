@@ -11,6 +11,8 @@
                 <th>Descripción</th>
                 <th>Fecha de Vencimiento</th>
                 <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Horas Estimadas</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -21,6 +23,20 @@
                     <td>{{ $task->description }}</td>
                     <td>{{ $task->due_date }}</td>
                     <td>{{ $task->status }}</td>
+                    <td>
+                        @php
+                            $priorityClasses = [
+                                'baja' => 'badge badge-secondary',
+                                'media' => 'badge badge-primary',
+                                'alta' => 'badge badge-warning',
+                                'critica' => 'badge badge-danger'
+                            ];
+                        @endphp
+                        <span class="{{ $priorityClasses[$task->priority] }}">
+                            {{ ucfirst($task->priority) }}
+                        </span>
+                    </td>
+                    <td>{{ $task->estimated_hours ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('tasks.show', $task) }}" class="btn btn-info">Ver</a>
                         <a href="{{ route('tasks.edit', $task) }}" class="btn btn-warning">Editar</a>

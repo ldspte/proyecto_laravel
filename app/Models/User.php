@@ -46,10 +46,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
     public function ledTeams()
     {
         return $this->hasMany(Team::class, 'team_leader_id');
@@ -61,5 +57,13 @@ class User extends Authenticatable
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_user');
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function hasRole($roleName)
+    {
+        return $this->role->name === $roleName;
     }
 }

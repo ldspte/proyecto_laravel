@@ -33,6 +33,21 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="priority">Prioridad</label>
+            <select name="priority" class="form-control" required>
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+                <option value="critica">Critica</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="estimated_hours">Horas Estimadas</label>
+            <input type="number" name="estimated_hours" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
             <label for="assigned_user_id">Usuario Asignado</label>
             <select name="assigned_user_id" class="form-control" required>
                 @foreach ($users as $user)

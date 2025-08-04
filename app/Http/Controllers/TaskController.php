@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -30,6 +31,9 @@ class TaskController extends Controller
             'description' => 'required|string',
             'due_date' => 'required|date',
             'status' => ['required', Rule::in(['pendiente', 'en_progreso', 'completada'])],
+            'priority' => 'required|in:baja,media,alta,critica',
+            'estimated_hours' => 'nullable|numeric|min:0.25|max:100',
+            'actual_hours' => 'nullable|numeric',
             'project_id' => 'required|exists:projects,id',
             'assigned_user_id' => 'required|exists:users,id'
         ]);
@@ -59,7 +63,10 @@ class TaskController extends Controller
             'due_date' => 'required|date',
             'status' => ['required', Rule::in(['pendiente', 'en_progreso', 'completada'])],
             'project_id' => 'required|exists:projects,id',
-            'assigned_user_id' => 'required|exists:users,id'
+            'assigned_user_id' => 'required|exists:users,id',
+            'priority' => 'required|in:baja,media,alta,critica',
+            'estimated_hours' => 'nullable|numeric|min:0.25|max:100',
+            'actual_hours' => 'nullable|numeric',
         ]);
 
         $task->update($validated);

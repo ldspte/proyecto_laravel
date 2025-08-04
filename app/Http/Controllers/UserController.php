@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('description');
             $table->string('status');
             $table->string('priority');
-            $table->string('estimated_hours');
-            $table->string('actual_hours');
+            $table->decimal('estimated_hours', 8, 2);
+            $table->decimal('actual_hours', 8, 2)->default(0);
             $table->string('due_date');
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->foreignId('assigned_user_id')->constrained('users')->onDelete('cascade');
